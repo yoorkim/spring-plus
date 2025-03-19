@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.entity.Timestamped;
 import org.example.expert.domain.common.exception.InvalidRequestException;
+import org.example.expert.domain.profileimage.entity.ProfileImage;
 import org.example.expert.domain.user.enums.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -17,12 +18,20 @@ public class User extends Timestamped {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true)
     private String email;
+
     private String password;
+
     private String nickname;
+
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_image_id")
+    private ProfileImage profileImage;
 
     public User(String email, String password, String nickname, UserRole userRole) {
         this.email = email;
@@ -54,5 +63,9 @@ public class User extends Timestamped {
 
     public void updateRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    public void updateProfileImage(ProfileImage profileImage) {
+        this.profileImage = profileImage;
     }
 }
