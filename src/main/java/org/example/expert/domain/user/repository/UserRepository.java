@@ -1,6 +1,8 @@
 package org.example.expert.domain.user.repository;
 
 import org.example.expert.domain.user.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,4 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @EntityGraph(attributePaths = "profileImage")
     Optional<User> findById(Long userId);
+
+    Page<User> findByNickname(String nickname, Pageable pageable);
 }
